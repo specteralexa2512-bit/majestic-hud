@@ -3,8 +3,8 @@ game 'gta5'
 lua54 'yes'
 
 author 'Custom HUD'
-description 'Real Life Roleplay HUD'
-version '1.2.0'
+description 'Real Life Roleplay ESX HUD'
+version '1.3.0'
 
 ui_page 'html/index.html'
 

@@ -1,9 +1,7 @@
 const hud = document.getElementById('hud');
 const speedometer = document.getElementById('speedometer');
 const speedElement = document.getElementById('speed');
-const fuelElement = document.getElementById('fuel');
 const rpmElement = document.getElementById('rpm');
-
 let targetSpeed = 0;
 let shownSpeed = 0;
 let lastDrawnSpeed = -1;
@@ -11,19 +9,24 @@ let lastFrameTime = 0;
 let inVehicle = false;
 
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
-const formatMoney = value => new Intl.NumberFormat('de-DE').format(Number(value) || 0);
+const moneyFormatter = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
+const timeFormatter = new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: false });
+const dateFormatter = new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', day: '2-digit', month: '2-digit', year: 'numeric' });
+const weekdayFormatter = new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', weekday: 'long' });
 
-function setBar(id, value) {
-    const element = document.getElementById(id);
-    if (element) element.style.width = `${clamp(value)}%`;
+function updateGermanDateTime() {
+    const now = new Date();
+    document.getElementById('clock').textContent = timeFormatter.format(now);
+    document.getElementById('date').textContent = dateFormatter.format(now);
+    const weekday = weekdayFormatter.format(now);
+    document.getElementById('weekday').textContent = weekday.charAt(0).toUpperCase() + weekday.slice(1);
 }
 
 function animateTacho(timestamp) {
     if (inVehicle) {
         const delta = lastFrameTime ? Math.min((timestamp - lastFrameTime) / 1000, 0.05) : 0.016;
         lastFrameTime = timestamp;
-        const blend = 1 - Math.exp(-12 * delta);
-        shownSpeed += (targetSpeed - shownSpeed) * blend;
+        shownSpeed += (targetSpeed - shownSpeed) * (1 - Math.exp(-12 * delta));
         const roundedSpeed = Math.round(shownSpeed);
         if (roundedSpeed !== lastDrawnSpeed) {
             speedElement.textContent = roundedSpeed;
@@ -34,6 +37,9 @@ function animateTacho(timestamp) {
     }
     requestAnimationFrame(animateTacho);
 }
+
+updateGermanDateTime();
+setInterval(updateGermanDateTime, 1000);
 requestAnimationFrame(animateTacho);
 
 window.addEventListener('message', ({ data }) => {
@@ -45,20 +51,16 @@ window.addEventListener('message', ({ data }) => {
         document.getElementById('player-id').textContent = data.id ?? 0;
         document.getElementById('player-id-copy').textContent = data.id ?? 0;
         document.getElementById('job').textContent = `${data.job || 'Arbeitslos'}${data.grade ? ` • ${data.grade}` : ''}`;
-        document.getElementById('cash').textContent = formatMoney(data.cash);
-        document.getElementById('bank').textContent = formatMoney(data.bank);
-        document.getElementById('clock').textContent = `${String(data.hour ?? 0).padStart(2, '0')}:${String(data.minute ?? 0).padStart(2, '0')}`;
-        setBar('health', data.health);
-        setBar('armor', data.armor);
-        setBar('hunger', data.hunger);
-        setBar('thirst', data.thirst);
+        document.getElementById('cash').textContent = moneyFormatter.format(Number(data.cash) || 0);
+        document.getElementById('bank').textContent = moneyFormatter.format(Number(data.bank) || 0);
+        document.getElementById('weather-label').textContent = data.weather || 'Wetter';
+        document.getElementById('temperature').textContent = `${Math.round(Number(data.temperature) || 0)}°`;
         return;
     }
 
     if (data.action === 'vehicleUpdate') {
         inVehicle = Boolean(data.inVehicle);
         speedometer.style.display = inVehicle ? 'block' : 'none';
-
         if (!inVehicle) {
             targetSpeed = 0;
             shownSpeed = 0;
@@ -67,10 +69,9 @@ window.addEventListener('message', ({ data }) => {
             rpmElement.style.width = '0%';
             return;
         }
-
         targetSpeed = clamp(data.speed, 0, 999);
         document.getElementById('gear').textContent = data.gear ?? 'N';
-        fuelElement.textContent = Math.round(clamp(data.fuel));
+        document.getElementById('fuel').textContent = Math.round(clamp(data.fuel));
         rpmElement.style.width = `${clamp((Number(data.rpm) || 0) * 100)}%`;
     }
 });

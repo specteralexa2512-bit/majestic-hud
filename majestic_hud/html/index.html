@@ -1,58 +1,40 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Real Life Roleplay HUD</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Life Roleplay</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main id="hud">
         <section class="server-panel">
-            <div class="server-brand">Real Life <span class="brand-name">Roleplay</span><span class="brand-dot">i</span></div>
-            <div class="server-meta"><span class="online-dot"></span> Online: <b id="online">0</b> <span class="divider">|</span> 🌴 Orlando</div>
-            <div class="server-id">ID: <b id="player-id">0</b> <span class="divider">|</span> #<b id="player-id-copy">0</b></div>
+            <div class="server-brand">Real L<span class="brand-i">i</span>fe Roleplay</div>
+            <div class="server-meta"><span class="online-dot"></span>Online: <strong id="online">0</strong><span class="separator">|</span><span class="location">⌖ Deutschland</span></div>
+            <div class="server-id">ID: <strong id="player-id">0</strong><span class="separator">|</span>#<strong id="player-id-copy">0</strong></div>
         </section>
 
-        <section class="reward-card">
-            <div class="reward-top"><span>BEZAHLTE PRÄMIE</span><b>1/4</b></div>
-            <div class="reward-bottom">
-                <strong>100</strong>
-                <span class="coin">✦</span>
-                <span class="free">Kostenlos</span>
-                <span class="reward-timer">00:00<small>verbleibend</small></span>
+        <section class="bottom-left" aria-label="Uhrzeit und Kontostand">
+            <div class="weather"><span class="sun-icon" id="weather-icon" aria-hidden="true">☀</span><span id="weather-label">Klar</span><strong id="temperature">25°</strong></div>
+            <div class="clock-row"><strong id="clock">--:--</strong><span id="date">--.--.----</span></div>
+            <div class="weekday" id="weekday">--</div>
+            <div class="job" id="job">Arbeitslos</div>
+            <div class="money-row">
+                <svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v15H5a2 2 0 0 1-2-2V6.5A2.5 2.5 0 0 1 5.5 4M3.5 8H20M16 13h4m-4 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z"/></svg>
+                <strong id="cash">0</strong>
+            </div>
+            <div class="money-row">
+                <svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5M5 10v8m4-8v8m6-8v8m4-8v8M3 20h18M2 22h20"/></svg>
+                <strong id="bank">0</strong>
             </div>
         </section>
 
-        <section class="quest-card">
-            <div class="quest-heading">ROUTE DES NEULINGS</div>
-            <div class="quest-subtitle">Einsteiger-Quests</div>
-            <div class="quest-rule"></div>
-            <div class="quest-description">Abschluss aller Einsteigeraufgaben</div>
-            <div class="quest-progress"><span class="check">✓</span><span>1/4</span></div>
-        </section>
-
-        <section class="bottom-left">
-            <div class="weather"><span class="sun">☀</span><span>Klar</span><b>25°</b></div>
-            <div class="clock"><strong id="clock">20:46</strong><span id="date">Dienstag</span></div>
-            <div class="job-line"><span class="job-dot"></span><span id="job">Arbeitslos</span></div>
-            <div class="money-line"><span class="cash-icon">▣</span><strong><span id="cash">0</span></strong></div>
-            <div class="money-line"><span class="bank-icon">▰</span><strong><span id="bank">0</span></strong></div>
-            <div class="status-bars">
-                <div class="status-bar health"><span id="health"></span></div>
-                <div class="status-bar armor"><span id="armor"></span></div>
-                <div class="status-bar hunger"><span id="hunger"></span></div>
-                <div class="status-bar thirst"><span id="thirst"></span></div>
-            </div>
-        </section>
-
-        <section class="speedometer" id="speedometer">
-            <div class="speed-row"><span class="gear" id="gear">N</span><span class="speed-number" id="speed">0</span></div>
-            <div class="speed-label">KM/H</div>
-            <div class="vehicle-details"><span class="engine-icon">◉</span><span class="rpm-track"><i id="rpm"></i></span><span class="fuel-icon">⛽</span><span class="fuel-value" id="fuel">100</span><span class="fuel-percent">%</span></div>
+        <section class="speedometer" id="speedometer" aria-label="Tacho">
+            <div class="speed-row"><span class="gear" id="gear">N</span><span class="speed-value" id="speed">0</span></div>
+            <div class="speed-unit">KM/H</div>
+            <div class="vehicle-row"><span class="rpm-track"><i id="rpm"></i></span><span class="fuel-icon" aria-hidden="true">⛽</span><strong id="fuel">100</strong><span class="percent">%</span></div>
         </section>
     </main>
-
     <script src="app.js"></script>
 </body>
 </html>

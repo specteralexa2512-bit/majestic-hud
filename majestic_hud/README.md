@@ -1,24 +1,16 @@
-# Real Life Roleplay HUD (ESX)
+# Real Life Roleplay HUD
 
-Ein FiveM ESX-HUD im gewünschten Stil: „Real Life Roleplay“ mit rotem i-Punkt, echter Online-Anzahl, Benutzer-ID/Server-ID, deutschsprachigen Labels, Geld/Bank, Statusleiste und fließendem Tacho mit Tankanzeige.
+HUD mit live aus dem Spiel ausgelesener Wetterlage, Uhrzeit und Kontostand. Die Wetterbezeichnung folgt dem aktuell synchronisierten GTA-Wetter (z.B. Klar, Regen oder Gewitter). Da GTA/FiveM keinen echten Umgebungstemperaturwert bereitstellt, wird die Temperatur als Näherungswert aus Wetterlage und Spieluhrzeit berechnet; sie ist kein reales Wetter.
+
+Die Uhrzeit, das Datum (TT.MM.JJJJ) und der Wochentag werden in deutscher Zeitzone (Europe/Berlin) angezeigt. Die native GTA-Minimap bleibt unverändert. Der Tacho wird weich interpoliert und zeigt Tankfüllung.
 
 ## Installation
 
-1. Den Ordner `majestic_hud` in `resources` legen.
-2. `es_extended` installieren, für Hunger und Durst zusätzlich `esx_status`.
-3. In `server.cfg` eintragen:
+Den Ordner `majestic_hud` nach `resources` kopieren. In `server.cfg` eintragen:
 
 ```cfg
 ensure es_extended
-ensure esx_status
 ensure majestic_hud
 ```
 
-4. Server neu starten oder `ensure majestic_hud` ausführen.
-
-## Hinweise
-
-- Online-Anzahl wird serverseitig aus der aktuellen Spielerzahl ermittelt und aktualisiert.
-- Bargeld und Bank werden aus den ESX-Konten `money` und `bank` gelesen.
-- Fahrzeugdaten werden im NUI weich interpoliert, damit das Tacho flüssiger läuft.
-- Der Name, Text, Farben und Kartenblöcke lassen sich in `html/index.html` und `html/style.css` anpassen.
+Für die Online-Spielerzahl ist `server.lua` enthalten. Bargeld und Bank werden aus den ESX-Konten `money` und `bank` gelesen.

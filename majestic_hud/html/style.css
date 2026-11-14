@@ -1,78 +1,44 @@
 * { box-sizing: border-box; }
-:root { --pink: #ff2874; --panel: rgba(20, 22, 25, .96); --muted: #c7c9d1; }
-html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; color: #fff; font-family: Arial, Helvetica, sans-serif; text-shadow: 0 1px 3px rgba(0,0,0,.75); }
+:root { --pink: #ff2874; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; color: #fff; font-family: Arial, Helvetica, sans-serif; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
 #hud { display: none; }
 
-.server-panel { position: absolute; top: 12px; right: 22px; width: 380px; text-align: right; }
-.server-brand { font-size: 33px; line-height: 1.1; font-weight: 900; letter-spacing: -1.8px; font-style: italic; }
-.brand-name { display: inline-block; margin-left: 3px; }
-.brand-dot { display: inline-block; margin-left: 2px; color: var(--pink); font-size: 0.78em; }
-.server-meta, .server-id { color: var(--muted); font-size: 13px; font-weight: 600; }
+.server-panel { position: absolute; top: 14px; right: 24px; width: 380px; text-align: right; }
+.server-brand { white-space: nowrap; font-size: 34px; line-height: 1.1; font-weight: 900; font-style: italic; letter-spacing: -1.6px; }
+.brand-i { position: relative; display: inline-block; }
+.brand-i::after { content: ''; position: absolute; top: 2px; left: 50%; width: 5px; height: 5px; transform: translateX(-50%); border-radius: 50%; background: var(--pink); }
+.server-meta, .server-id { color: #e3e3e6; font-size: 13px; font-weight: 600; }
 .server-meta { margin-top: 18px; }
 .server-id { margin-top: 8px; }
-.divider { margin: 0 8px; color: rgba(255,255,255,.42); }
-.online-dot, .job-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #44d77d; margin-right: 5px; }
+.server-meta strong, .server-id strong { color: #fff; }
+.separator { margin: 0 9px; color: #8d8d91; }
+.online-dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #42d77d; }
+.location { color: #e3e3e6; }
 
-.reward-card {
-    position: absolute; top: 162px; right: 20px; width: 343px; height: 79px; padding: 12px 14px; background: rgba(26,27,31,.97);
-    border: 1px solid rgba(255,255,255,.04); box-shadow: 0 8px 16px rgba(0,0,0,.22);
-}
-.reward-top { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; }
-.reward-top b { color: #aaa; font-weight: 500; }
-.reward-bottom { display: flex; align-items: center; margin-top: 9px; gap: 8px; }
-.reward-bottom strong { font-size: 18px; }
-.coin { color: var(--pink); font-size: 15px; }
-.free { color: #aaa; font-size: 14px; font-weight: 700; }
-.reward-timer { margin: -12px -14px -12px auto; width: 82px; height: 79px; border-left: 1px solid rgba(255,255,255,.12); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
-.reward-timer small { margin-top: 4px; color: #999; font-size: 9px; }
+/* Native GTA minimap is unchanged; this is only its adjacent information panel. */
+.bottom-left { position: absolute; left: clamp(245px, 19.7vw, 360px); bottom: 32px; min-width: 250px; }
+.weather { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
+.sun-icon { color: #ffc43c; font-size: 16px; }
+.weather strong { font-size: 13px; }
+.clock-row { display: flex; align-items: baseline; gap: 9px; }
+.clock-row strong { font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.clock-row span { color: #e0e0e0; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.weekday { margin-top: 1px; color: #e0e0e0; font-size: 12px; font-weight: 600; }
+.job { margin-top: 2px; color: #e0e0e0; font-size: 12px; }
+.money-row { display: flex; align-items: center; gap: 9px; margin-top: 7px; min-height: 22px; }
+.money-icon { width: 17px; height: 17px; flex: 0 0 17px; fill: none; stroke: #e8e8e8; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.money-row strong { font-size: 18px; line-height: 1; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: .1px; }
 
-.quest-card {
-    position: absolute; top: 250px; right: 20px; width: 343px; height: 155px; padding: 17px 14px; background: linear-gradient(135deg, rgba(55, 35, 44, .96), rgba(27, 28, 30, .97) 50%);
-    box-shadow: 0 8px 16px rgba(0,0,0,.18);
-}
-.quest-heading { font-size: 15px; font-weight: 800; }
-.quest-subtitle { margin-top: 7px; color: #bbb; font-size: 12px; }
-.quest-rule { position: absolute; top: 77px; left: 0; right: 0; height: 3px; background: var(--pink); }
-.quest-description { margin-top: 30px; font-size: 12px; }
-.quest-progress { display: flex; align-items: center; gap: 8px; margin-top: 9px; color: #aaa; font-size: 11px; }
-.check { display: inline-flex; width: 15px; height: 15px; align-items: center; justify-content: center; border-radius: 2px; background: #ddd; color: #333; font-size: 11px; font-weight: bold; }
-
-.bottom-left { position: absolute; left: 350px; bottom: 34px; min-width: 235px; font-size: 13px; }
-.weather { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; font-size: 12px; }
-.weather .sun { color: #ffc545; font-size: 16px; }
-.weather span:nth-child(2) { color: #ddd; }
-.weather b { font-size: 13px; }
-.clock { display: flex; align-items: baseline; gap: 9px; }
-.clock strong { font-size: 17px; }
-.clock span { color: #bbb; font-size: 11px; font-weight: 700; }
-.job-line { display: flex; align-items: center; margin-top: 4px; font-size: 12px; }
-.job-dot { width: 6px; height: 6px; background: #ffca52; }
-.money-line { display: flex; align-items: center; gap: 9px; margin-top: 5px; font-size: 16px; }
-.money-line strong { font-size: 15px; font-variant-numeric: tabular-nums; }
-.cash-icon { color: #61d18a; }
-.bank-icon { color: #d3d8e0; }
-.status-bars { display: flex; gap: 4px; width: 190px; margin-top: 10px; }
-.status-bar { width: 46px; height: 5px; background: rgba(0,0,0,.65); overflow: hidden; }
-.status-bar span { display: block; width: 100%; height: 100%; transition: width .25s ease; }
-.health span { background: #58d477; }
-.armor span { background: #58aaff; }
-.hunger span { background: #ff9a42; }
-.thirst span { background: #44d5df; }
-
-.speedometer { display: none; position: absolute; right: 30px; bottom: 30px; min-width: 190px; text-align: right; }
-.speed-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-.speed-number { min-width: 128px; font-size: 58px; line-height: .9; font-weight: 800; letter-spacing: -2px; font-variant-numeric: tabular-nums; }
-.gear { display: inline-flex; width: 34px; height: 34px; align-items: center; justify-content: center; background: rgba(20,21,24,.82); border-radius: 5px; font-size: 18px; font-weight: 700; }
-.speed-label { margin-top: 5px; margin-right: 2px; font-size: 12px; font-weight: 700; }
-.vehicle-details { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-top: 8px; color: #ddd; font-size: 12px; }
-.engine-icon { color: #aaa; font-size: 14px; }
-.rpm-track { display: inline-block; width: 46px; height: 4px; background: rgba(255,255,255,.18); overflow: hidden; }
+.speedometer { display: none; position: absolute; right: 30px; bottom: 28px; min-width: 185px; text-align: right; }
+.speed-row { display: flex; align-items: center; justify-content: flex-end; gap: 9px; }
+.speed-value { min-width: 124px; font-size: 58px; line-height: .9; font-weight: 800; letter-spacing: -2px; font-variant-numeric: tabular-nums; }
+.gear { display: inline-flex; width: 34px; height: 34px; align-items: center; justify-content: center; border-radius: 5px; background: rgba(15,16,19,.78); font-size: 17px; font-weight: 700; }
+.speed-unit { margin-top: 4px; font-size: 12px; font-weight: 700; }
+.vehicle-row { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-top: 7px; color: #e8e8e8; font-size: 12px; }
+.rpm-track { display: inline-block; width: 42px; height: 4px; overflow: hidden; background: rgba(255,255,255,.25); }
 .rpm-track i { display: block; width: 0; height: 100%; background: var(--pink); transition: width .08s linear; }
-.fuel-icon { margin-left: 5px; color: #ffc545; }
-.fuel-value { color: white; font-weight: 700; }
-.fuel-percent { margin-left: -5px; color: #aaa; }
+.fuel-icon { margin-left: 5px; color: #ffc43c; }
+.vehicle-row strong { color: #fff; font-weight: 700; }
+.percent { margin-left: -5px; color: #aaa; }
 
-@media (max-width: 1200px) {
-    .server-panel, .reward-card, .quest-card { right: 14px; }
-    .bottom-left { left: 270px; }
-}
+@media (max-width: 1100px) { .bottom-left { left: 225px; } .server-panel { right: 14px; } }
