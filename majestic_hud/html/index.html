@@ -1,94 +1,20 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real Life Roleplay</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main id="hud">
-    <section class="server-panel">
-      <div class="server-brand">Real L<span class="brand-i" aria-hidden="true"></span>fe Roleplay</div>
-      <div class="server-meta"><span class="online-dot"></span>Online: <strong id="online">0</strong><span class="separator">|</span><span class="location">⌖ Deutschland</span></div>
-      <div class="server-id">ID: <strong id="player-id">0</strong><span class="separator">|</span>#<strong id="player-id-copy">0</strong></div>
-    </section>
-
-    <section class="bottom-left" aria-label="Uhrzeit und Kontostand">
-      <div class="weather"><span class="sun-icon" id="weather-icon" aria-hidden="true">☀</span><span id="weather-label">Klar</span><strong id="temperature">25°</strong></div>
-      <div class="clock-row"><strong id="clock">--:--</strong><span id="date">--.--.----</span></div>
-      <div class="weekday" id="weekday">--</div>
-      <div class="job" id="job">Arbeitslos</div>
-      <div class="money-row"><svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v15H5a2 2 0 0 1-2-2V6.5A2.5 2.5 0 0 1 5.5 4M3.5 8H20M16 13h4m-4 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z"/></svg><strong id="cash">0</strong></div>
-      <div class="money-row"><svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5M5 10v8m4-8v8m6-8v8m4-8v8M3 20h18M2 22h20"/></svg><strong id="bank">0</strong></div>
-    </section>
-
-    <section class="speedometer" id="speedometer" aria-label="Tacho">
-      <div class="speed-row"><span class="gear" id="gear">N</span><span class="speed-value" id="speed">0</span></div>
-      <div class="speed-unit">KM/H</div>
-      <div class="vehicle-row"><span class="rpm-track"><i id="rpm"></i></span><span class="fuel-icon">⛽</span><strong id="fuel">100</strong><span class="percent">%</span></div>
-    </section>
-
-    <aside class="report-counter" id="report-counter"><span class="counter-label">OFFENE REPORTS</span><strong id="report-count">0</strong></aside>
-    <aside class="ticket-feed" id="ticket-feed" aria-live="polite"><header><span class="feed-live-dot"></span><div><b>REPORT-ÜBERSICHT</b><small>Live · nur für Admins</small></div><strong id="feed-count">0</strong></header><div class="feed-items" id="feed-items"><p class="feed-empty">Keine offenen Tickets</p></div></aside>
-
-    <div class="admin-backdrop" id="admin-backdrop"></div>
-    <section class="admin-menu" id="admin-menu" aria-label="Adminmenü">
-      <header class="admin-header">
-        <div class="admin-brand"><span class="admin-logo">M</span><div><span class="admin-kicker">MAJESTIC ROLEPLAY · STAFF</span><h1>Administration</h1></div></div>
-        <div class="admin-header-right"><span class="session-pill"><i></i> VERBUNDEN</span><button class="close-button" id="admin-close" aria-label="Menü schließen">×</button></div>
-      </header>
-
-      <nav class="admin-nav">
-        <span class="nav-caption">MENÜ</span>
-        <button class="nav-button active" data-tab="tickets"><span class="nav-icon">▤</span>Offene Tickets <b id="menu-ticket-count">0</b></button>
-        <button class="nav-button" data-tab="commands"><span class="nav-icon">⌘</span>Befehle</button>
-        <button class="nav-button" data-tab="administration"><span class="nav-icon">♙</span>Administration</button>
-        <div class="nav-level"><small>DEIN RANG</small><strong>ADMIN <span id="nav-admin-level">0</span></strong></div>
-      </nav>
-
-      <main class="admin-content">
-        <section class="admin-tab active" id="tab-tickets">
-          <div class="tab-heading">
-            <div><span class="section-overline">SUPPORT CENTER</span><h2>Offene Tickets <em id="heading-ticket-count">0</em></h2><p>Reports und Nachrichten in Echtzeit verwalten</p></div>
-            <button class="refresh-button" id="refresh-tickets">↻ <span>Aktualisieren</span></button>
-          </div>
-          <div class="ticket-layout">
-            <div class="ticket-list-wrap"><div class="list-label">EINGANG <span id="list-ticket-count">0</span></div><div class="ticket-list" id="ticket-list"></div></div>
-            <div class="ticket-detail" id="ticket-detail"><div class="empty-state"><span>▤</span><h3>Ticket auswählen</h3><p>Wähle links ein Ticket, um den Report und den Nachrichtenverlauf zu sehen.</p></div></div>
-          </div>
-        </section>
-
-        <section class="admin-tab" id="tab-commands">
-          <div class="tab-heading"><div><span class="section-overline">ÜBERSICHT</span><h2>Befehle</h2><p>Adminbefehle und erforderliche Berechtigungen</p></div></div>
-          <div class="command-list">
-            <article><div><h3>Adminmodus</h3><p>Aktivieren / deaktivieren</p></div><code>/ADMIN</code><span>Level 2+</span></article>
-            <article><div><h3>Admin login</h3><p>F3 freischalten</p></div><code>/ADMINLOGIN</code><span>Alle Admins</span></article>
-            <article><div><h3>Adminrechte vergeben</h3><p>Level 1–7 vergeben</p></div><code>/GIVEADMIN ID [Level]</code><span>Level 7</span></article>
-            <article><div><h3>Report</h3><p>Spieler meldet Anliegen</p></div><code>/REPORT</code><span>Spieler</span></article>
-            <article><div><h3>Reply</h3><p>Auf eigenes Ticket antworten</p></div><code>/REPLY</code><span>Spieler</span></article>
-            <article><div><h3>Ticket verwalten</h3><p>Tickets lesen / beantworten</p></div><code>F3</code><span>Level 1+</span></article>
-          </div>
-        </section>
-
-        <section class="admin-tab" id="tab-administration">
-          <div class="tab-heading"><div><span class="section-overline">STAFF ACCOUNT</span><h2>Administration</h2><p>Berechtigungen deiner aktuellen Sitzung</p></div></div>
-          <div class="level-card">
-            <span class="level-badge">ADMIN LEVEL <b id="admin-level">0</b></span>
-            <h3>Dein Zugriff</h3>
-            <p>Reports ansehen ist ab Level 1 möglich. F3-Adminmenü und Ticketantworten erfordern Level 2. Adminrechte vergeben darf nur Level 7.</p>
-            <div class="permission-row"><span>Reports ansehen</span><b>LEVEL 1+</b></div>
-            <div class="permission-row"><span>F3-Menü und Tickets bearbeiten</span><b>LEVEL 2+</b></div>
-            <div class="permission-row"><span>Adminrechte vergeben</span><b>LEVEL 7</b></div>
-            <div class="permission-row"><span>Adminmodus umschalten</span><b>/admin</b></div>
-          </div>
-        </section>
-      </main>
-
-      <footer class="admin-footer"><span><i></i> Admin-Sitzung aktiv</span><span>F3 oder ESC zum Schließen</span></footer>
-    </section>
-  </main>
-
-  <script src="app.js"></script>
-</body>
-</html>
+*** Begin Patch
+*** Update File: majestic_hud/html/index.html
+@@
+           <div class="command-list">
+-            <article><div><h3>Adminmodus</h3><p>Aktivieren / deaktivieren</p></div><code>/ADMIN</code><span>Level 2+</span></article>
+-            <article><div><h3>Admin login</h3><p>F3 freischalten</p></div><code>/ADMINLOGIN</code><span>Alle Admins</span></article>
+-            <article><div><h3>Adminrechte vergeben</h3><p>Level 1–7 vergeben</p></div><code>/GIVEADMIN ID [Level]</code><span>Level 7</span></article>
+-            <article><div><h3>Report</h3><p>Spieler meldet Anliegen</p></div><code>/REPORT</code><span>Spieler</span></article>
+-            <article><div><h3>Reply</h3><p>Auf eigenes Ticket antworten</p></div><code>/REPLY</code><span>Spieler</span></article>
+-            <article><div><h3>Ticket verwalten</h3><p>Tickets lesen / beantworten</p></div><code>F3</code><span>Level 1+</span></article>
++            <article><div><h3>Adminmodus</h3><p>Aktivieren / deaktivieren</p></div><code>/admin</code><span>Level 2+</span></article>
++            <article><div><h3>Stummschalten</h3><p>Chat für Spieler sperren / freigeben</p></div><code>/mute ID · /unmute ID</code><span>Level 2+</span></article>
++            <article><div><h3>Waffe / Fahrzeug erstellen</h3><p>Für dich selbst erzeugen</p></div><code>/spawnwep · /spawncar</code><span>Level 2+</span></article>
++            <article><div><h3>Spielerstatus</h3><p>Weste und Gesundheit setzen</p></div><code>/setkevlar ID Menge · /sethealth ID Menge</code><span>Level 2+</span></article>
++            <article><div><h3>Teleport</h3><p>Zu Spieler / Spieler zu dir</p></div><code>/goto ID · /gethere ID</code><span>Level 2+</span></article>
++            <article><div><h3>Kick / Ban</h3><p>Mit Begründung vom Server entfernen</p></div><code>/kick ID Grund · /ban ID Grund</code><span>Level 2+</span></article>
++            <article><div><h3>Admin anmelden</h3><p>F3 und Adminfunktionen freischalten</p></div><code>/adminlogin</code><span>Alle Admins</span></article>
++            <article><div><h3>Adminrechte vergeben</h3><p>Level 1–7 vergeben</p></div><code>/giveadmin ID [Level]</code><span>Level 7</span></article>
++            <article><div><h3>Report / Antwort</h3><p>Spieler erstellt Report und schreibt im Ticket</p></div><code>/report Anliegen · /reply Nachricht</code><span>Spieler</span></article>
+*** End Patch
