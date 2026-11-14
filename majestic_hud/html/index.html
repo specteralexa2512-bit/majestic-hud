@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiveM HUD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main id="hud">
+        <section class="server">
+            <div class="server-name">Majestic<span>.</span></div>
+            <div class="server-info">ESX Roleplay <b>•</b> ID: <strong id="player-id">0</strong></div>
+            <div class="job" id="job">Arbeitslos</div>
+        </section>
+
+        <section class="mission">
+            <div class="mission-title">WILLKOMMEN</div>
+            <div class="mission-subtitle">Dein Abenteuer beginnt</div>
+            <div class="mission-progress"><span></span></div>
+            <div class="mission-foot">Erkunde die Stadt und finde deinen Weg.</div>
+        </section>
+
+        <section class="stats">
+            <div class="stat"><label>LEBEN</label><div class="bar"><i id="health"></i></div></div>
+            <div class="stat"><label>RÜSTUNG</label><div class="bar blue"><i id="armor"></i></div></div>
+            <div class="stat"><label>HUNGER</label><div class="bar orange"><i id="hunger"></i></div></div>
+            <div class="stat"><label>DURST</label><div class="bar cyan"><i id="thirst"></i></div></div>
+        </section>
+
+        <section class="controls">
+            <div><kbd>M</kbd> Karte öffnen</div>
+            <div><kbd>U</kbd> Telefon</div>
+            <div><kbd>B</kbd> Inventar</div>
+            <div><kbd>K</kbd> ID-Karte</div>
+        </section>
+
+        <section class="money">
+            <div>BARGELD <strong>$<span id="cash">0</span></strong></div>
+            <div>BANK <strong>$<span id="bank">0</span></strong></div>
+        </section>
+
+        <section class="speedometer" id="speedometer">
+            <div class="speed"><span id="speed">0</span><small>KM/H</small></div>
+            <div class="fuel">⛽ <span id="fuel">0</span>%</div>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

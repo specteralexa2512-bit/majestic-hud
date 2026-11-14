@@ -1,0 +1,107 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    overflow: hidden;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 0 1px 3px #000;
+}
+
+#hud { display: none; }
+
+.server {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    width: 330px;
+    text-align: right;
+}
+
+.server-name {
+    font-size: 34px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -1.5px;
+}
+
+.server-name span { color: #ff2874; }
+.server-info { margin-top: 5px; color: #d3d3d3; font-size: 13px; }
+.server-info b { color: #ff2874; padding: 0 5px; }
+.job { margin-top: 7px; color: #fff; font-size: 14px; font-weight: bold; }
+
+.mission {
+    position: absolute;
+    top: 145px;
+    right: 28px;
+    width: 330px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(55, 34, 43, .95), rgba(20, 22, 25, .95));
+    border-bottom: 3px solid #ff2874;
+}
+
+.mission-title { font-size: 14px; font-weight: bold; }
+.mission-subtitle { margin-top: 7px; color: #c6c6c6; font-size: 12px; }
+.mission-progress { height: 5px; margin-top: 14px; background: #454545; }
+.mission-progress span { display: block; width: 25%; height: 100%; background: #ff2874; }
+.mission-foot { margin-top: 10px; color: #ddd; font-size: 12px; }
+
+.controls {
+    position: absolute;
+    top: 405px;
+    right: 28px;
+    display: grid;
+    gap: 9px;
+    color: #ddd;
+    font-size: 13px;
+}
+
+.controls div { display: flex; align-items: center; gap: 10px; }
+kbd {
+    min-width: 27px;
+    padding: 5px 7px;
+    border-radius: 4px;
+    background: rgba(15, 15, 15, .85);
+    text-align: center;
+    font-weight: bold;
+}
+
+.stats {
+    position: absolute;
+    left: 28px;
+    bottom: 30px;
+    display: grid;
+    grid-template-columns: 110px 110px;
+    gap: 8px 12px;
+}
+
+.stat label { display: block; margin-bottom: 4px; color: #ddd; font-size: 9px; }
+.bar { width: 110px; height: 6px; background: rgba(0, 0, 0, .65); }
+.bar i { display: block; width: 100%; height: 100%; background: #58d477; transition: width .2s; }
+.bar.blue i { background: #51a9ff; }
+.bar.orange i { background: #ff9a42; }
+.bar.cyan i { background: #44d5df; }
+
+.money {
+    position: absolute;
+    left: 28px;
+    bottom: 95px;
+    display: grid;
+    gap: 5px;
+    color: #ddd;
+    font-size: 12px;
+}
+
+.money strong { margin-left: 8px; color: white; font-size: 14px; }
+
+.speedometer {
+    display: none;
+    position: absolute;
+    right: 30px;
+    bottom: 28px;
+    text-align: right;
+}
+
+.speed { font-size: 54px; font-weight: 800; line-height: 1; }
+.speed small { display: block; margin-top: 3px; font-size: 12px; }
+.fuel { margin-top: 7px; color: #ffd26b; font-size: 13px; }
