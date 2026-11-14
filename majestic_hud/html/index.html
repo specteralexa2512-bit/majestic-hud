@@ -1,20 +1,17 @@
-*** Begin Patch
-*** Update File: majestic_hud/html/index.html
-@@
-           <div class="command-list">
--            <article><div><h3>Adminmodus</h3><p>Aktivieren / deaktivieren</p></div><code>/ADMIN</code><span>Level 2+</span></article>
--            <article><div><h3>Admin login</h3><p>F3 freischalten</p></div><code>/ADMINLOGIN</code><span>Alle Admins</span></article>
--            <article><div><h3>Adminrechte vergeben</h3><p>Level 1–7 vergeben</p></div><code>/GIVEADMIN ID [Level]</code><span>Level 7</span></article>
--            <article><div><h3>Report</h3><p>Spieler meldet Anliegen</p></div><code>/REPORT</code><span>Spieler</span></article>
--            <article><div><h3>Reply</h3><p>Auf eigenes Ticket antworten</p></div><code>/REPLY</code><span>Spieler</span></article>
--            <article><div><h3>Ticket verwalten</h3><p>Tickets lesen / beantworten</p></div><code>F3</code><span>Level 1+</span></article>
-+            <article><div><h3>Adminmodus</h3><p>Aktivieren / deaktivieren</p></div><code>/admin</code><span>Level 2+</span></article>
-+            <article><div><h3>Stummschalten</h3><p>Chat für Spieler sperren / freigeben</p></div><code>/mute ID · /unmute ID</code><span>Level 2+</span></article>
-+            <article><div><h3>Waffe / Fahrzeug erstellen</h3><p>Für dich selbst erzeugen</p></div><code>/spawnwep · /spawncar</code><span>Level 2+</span></article>
-+            <article><div><h3>Spielerstatus</h3><p>Weste und Gesundheit setzen</p></div><code>/setkevlar ID Menge · /sethealth ID Menge</code><span>Level 2+</span></article>
-+            <article><div><h3>Teleport</h3><p>Zu Spieler / Spieler zu dir</p></div><code>/goto ID · /gethere ID</code><span>Level 2+</span></article>
-+            <article><div><h3>Kick / Ban</h3><p>Mit Begründung vom Server entfernen</p></div><code>/kick ID Grund · /ban ID Grund</code><span>Level 2+</span></article>
-+            <article><div><h3>Admin anmelden</h3><p>F3 und Adminfunktionen freischalten</p></div><code>/adminlogin</code><span>Alle Admins</span></article>
-+            <article><div><h3>Adminrechte vergeben</h3><p>Level 1–7 vergeben</p></div><code>/giveadmin ID [Level]</code><span>Level 7</span></article>
-+            <article><div><h3>Report / Antwort</h3><p>Spieler erstellt Report und schreibt im Ticket</p></div><code>/report Anliegen · /reply Nachricht</code><span>Spieler</span></article>
-*** End Patch
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Real Life Roleplay</title><link rel="stylesheet" href="style.css"></head><body>
+<main id="hud">
+  <section class="server-panel"><div class="server-brand">Real L<span class="brand-i" aria-hidden="true"></span>fe Roleplay</div><div class="server-meta"><span class="online-dot"></span>Online: <strong id="online">0</strong><span class="separator">|</span><span>⌖ Deutschland</span></div><div class="server-id">ID: <strong id="player-id">0</strong><span class="separator">|</span>#<strong id="player-id-copy">0</strong></div></section>
+  <section class="bottom-left"><div class="weather"><span class="sun-icon">☀</span><span id="weather-label">Klar</span><strong id="temperature">25°</strong></div><div class="clock-row"><strong id="clock">--:--</strong><span id="date">--.--.----</span></div><div id="weekday" class="weekday">--</div><div id="job" class="job">Arbeitslos</div><div class="money-row"><span>▣</span><strong id="cash">0</strong></div><div class="money-row"><span>▤</span><strong id="bank">0</strong></div></section>
+  <section class="speedometer" id="speedometer"><div class="speed-row"><span class="gear" id="gear">N</span><span class="speed-value" id="speed">0</span></div><div class="speed-unit">KM/H</div><div class="vehicle-row">RPM <i id="rpm"></i> ⛽ <strong id="fuel">100</strong>%</div></section>
+  <aside class="report-counter" id="report-counter"><span>OFFENE REPORTS</span><strong id="report-count">0</strong></aside>
+  <aside class="ticket-feed" id="ticket-feed"><header><i></i><div><b>REPORT-ÜBERSICHT</b><small>Live · nur für Admins</small></div><strong id="feed-count">0</strong></header><div id="feed-items"><p class="feed-empty">Keine offenen Tickets</p></div></aside>
+  <div class="admin-backdrop" id="admin-backdrop"></div>
+  <section class="admin-menu" id="admin-menu"><header class="admin-header"><div><small>MAJESTIC ROLEPLAY · STAFF</small><h1>Administration</h1></div><span>ADMIN LEVEL <b id="nav-admin-level">0</b></span><button id="admin-close">×</button></header>
+    <nav class="admin-nav"><button class="nav-button active" data-tab="tickets">Offene Tickets <b id="menu-ticket-count">0</b></button><button class="nav-button" data-tab="commands">Befehle</button><button class="nav-button" data-tab="administration">Administration</button></nav>
+    <main class="admin-content"><section class="admin-tab active" id="tab-tickets"><header class="tab-heading"><div><h2>Offene Tickets <em id="heading-ticket-count">0</em></h2><p>Spielerreports und Nachrichtenverlauf</p></div><button id="refresh-tickets">Aktualisieren</button></header><div class="ticket-layout"><div class="ticket-list-wrap"><div class="list-label">EINGANG <span id="list-ticket-count">0</span></div><div class="ticket-list" id="ticket-list"></div></div><div class="ticket-detail" id="ticket-detail"><div class="empty-state"><h3>Ticket auswählen</h3><p>Der Nachrichtenverlauf erscheint hier.</p></div></div></div></section>
+      <section class="admin-tab" id="tab-commands"><h2>Befehle</h2><div class="command-list"><article>/adminlogin <small>Adminzugang aktivieren</small></article><article>/admin <small>Adminmodus · Level 2+</small></article><article>/mute ID · /unmute ID <small>Chat sperren / freigeben · Level 2+</small></article><article>/spawnwep NAME [ammo] · /spawncar MODEL [color1] [color2] <small>Level 2+</small></article><article>/setkevlar ID amount · /sethealth ID amount <small>Level 2+</small></article><article>/goto ID · /gethere ID <small>Teleport · Level 2+</small></article><article>/kick ID Grund · /ban ID Grund <small>Level 2+</small></article><article>/giveadmin ID [1-7] <small>Nur Level 7</small></article><article>/report Anliegen · /reply Nachricht <small>Spieler-Tickets</small></article></div></section>
+      <section class="admin-tab" id="tab-administration"><h2>Administration</h2><p>Reports ansehen: Level 1+. Antworten, moderieren und /admin: Level 2+. Adminrechte vergeben: Level 7.</p><div class="permission-row">Dein Admin-Level <b id="admin-level">0</b></div></section>
+    </main><footer>F3 oder ESC zum Schließen · /report Anliegen erstellt ein Ticket</footer>
+  </section>
+</main><script src="app.js"></script></body></html>
