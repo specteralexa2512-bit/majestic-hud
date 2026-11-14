@@ -3,8 +3,8 @@ game 'gta5'
 lua54 'yes'
 
 author 'Custom HUD'
-description 'Real Life Roleplay ESX HUD'
-version '1.3.0'
+description 'Real Life Roleplay HUD mit Report- und Adminsystem'
+version '2.0.0'
 
 ui_page 'html/index.html'
 
@@ -14,5 +14,6 @@ files {
     'html/app.js'
 }
 
+shared_script 'config.lua'
 client_script 'client.lua'
 server_script 'server.lua'

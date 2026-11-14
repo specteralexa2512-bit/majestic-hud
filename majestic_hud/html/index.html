@@ -13,26 +13,30 @@
             <div class="server-meta"><span class="online-dot"></span>Online: <strong id="online">0</strong><span class="separator">|</span><span class="location">⌖ Deutschland</span></div>
             <div class="server-id">ID: <strong id="player-id">0</strong><span class="separator">|</span>#<strong id="player-id-copy">0</strong></div>
         </section>
-
         <section class="bottom-left" aria-label="Uhrzeit und Kontostand">
             <div class="weather"><span class="sun-icon" id="weather-icon" aria-hidden="true">☀</span><span id="weather-label">Klar</span><strong id="temperature">25°</strong></div>
             <div class="clock-row"><strong id="clock">--:--</strong><span id="date">--.--.----</span></div>
-            <div class="weekday" id="weekday">--</div>
-            <div class="job" id="job">Arbeitslos</div>
-            <div class="money-row">
-                <svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v15H5a2 2 0 0 1-2-2V6.5A2.5 2.5 0 0 1 5.5 4M3.5 8H20M16 13h4m-4 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z"/></svg>
-                <strong id="cash">0</strong>
-            </div>
-            <div class="money-row">
-                <svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5M5 10v8m4-8v8m6-8v8m4-8v8M3 20h18M2 22h20"/></svg>
-                <strong id="bank">0</strong>
-            </div>
+            <div class="weekday" id="weekday">--</div><div class="job" id="job">Arbeitslos</div>
+            <div class="money-row"><svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v15H5a2 2 0 0 1-2-2V6.5A2.5 2.5 0 0 1 5.5 4M3.5 8H20M16 13h4m-4 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z"/></svg><strong id="cash">0</strong></div>
+            <div class="money-row"><svg class="money-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5M5 10v8m4-8v8m6-8v8m4-8v8M3 20h18M2 22h20"/></svg><strong id="bank">0</strong></div>
         </section>
+        <section class="speedometer" id="speedometer" aria-label="Tacho"><div class="speed-row"><span class="gear" id="gear">N</span><span class="speed-value" id="speed">0</span></div><div class="speed-unit">KM/H</div><div class="vehicle-row"><span class="rpm-track"><i id="rpm"></i></span><span class="fuel-icon">⛽</span><strong id="fuel">100</strong><span class="percent">%</span></div></section>
 
-        <section class="speedometer" id="speedometer" aria-label="Tacho">
-            <div class="speed-row"><span class="gear" id="gear">N</span><span class="speed-value" id="speed">0</span></div>
-            <div class="speed-unit">KM/H</div>
-            <div class="vehicle-row"><span class="rpm-track"><i id="rpm"></i></span><span class="fuel-icon" aria-hidden="true">⛽</span><strong id="fuel">100</strong><span class="percent">%</span></div>
+        <aside class="report-counter" id="report-counter"><span>Reports</span><strong id="report-count">0</strong></aside>
+        <div class="admin-backdrop" id="admin-backdrop"></div>
+        <section class="admin-menu" id="admin-menu" aria-label="Adminmenü">
+            <header class="admin-header"><div><span class="admin-kicker">REAL LIFE ROLEPLAY</span><h1>Administration</h1></div><button class="close-button" id="admin-close" aria-label="Menü schließen">×</button></header>
+            <nav class="admin-nav">
+                <button class="nav-button active" data-tab="tickets">Offene Tickets <b id="menu-ticket-count">0</b></button>
+                <button class="nav-button" data-tab="commands">Befehle</button>
+                <button class="nav-button" data-tab="administration">Administration</button>
+            </nav>
+            <main class="admin-content">
+                <section class="admin-tab active" id="tab-tickets"><div class="tab-heading"><div><h2>Offene Tickets</h2><p>Spielerreports und Nachrichten</p></div><button class="refresh-button" id="refresh-tickets">Aktualisieren</button></div><div class="ticket-layout"><div class="ticket-list" id="ticket-list"></div><div class="ticket-detail" id="ticket-detail"><div class="empty-state"><span>✦</span><h3>Ticket auswählen</h3><p>Wähle links ein offenes Ticket aus, um den Verlauf zu sehen und dem Spieler zu antworten.</p></div></div></div></section>
+                <section class="admin-tab" id="tab-commands"><div class="tab-heading"><div><h2>Befehle</h2><p>Verfügbare Adminbefehle nach Berechtigungsstufe</p></div></div><div class="command-list"><article><div><h3>Adminmodus umschalten</h3><p>Aktiviert oder deaktiviert den roten Admin-Namen über deinem Spieler.</p></div><code>/admin</code><span>Level 2+</span></article><article><div><h3>Adminrechte vergeben</h3><p>Vergibt ein Adminlevel. Ohne Levelangabe wird Level 1 vergeben.</p></div><code>/giveadmin ID [Level]</code><span>Level 7</span></article><article><div><h3>Admin anmelden</h3><p>Schaltet F3 und die Adminfunktionen für deine Sitzung frei.</p></div><code>/adminlogin</code><span>Alle Admins</span></article></div></section>
+                <section class="admin-tab" id="tab-administration"><div class="tab-heading"><div><h2>Administration</h2><p>Deine aktuelle Berechtigungsstufe</p></div></div><div class="level-card"><span class="level-badge">LEVEL <b id="admin-level">0</b></span><h3>Adminzugriff</h3><p>Dein Zugriff wird serverseitig geprüft. Nutze <code>/admin</code>, um den Adminmodus umzuschalten. Level 7 kann Adminrechte vergeben.</p><div class="permission-row"><span>Reports ansehen</span><b>Level 1+</b></div><div class="permission-row"><span>F3-Menü und Tickets beantworten</span><b>Level 2+</b></div><div class="permission-row"><span>Adminrechte vergeben</span><b>Level 7</b></div></div></section>
+            </main>
+            <footer class="admin-footer"><span><i></i> Admin-Sitzung aktiv</span><span>F3 oder ESC zum Schließen</span></footer>
         </section>
     </main>
     <script src="app.js"></script>
