@@ -3,8 +3,8 @@ game 'gta5'
 lua54 'yes'
 
 author 'Custom HUD'
-description 'Real Life Roleplay HUD mit Report- und Adminsystem'
-version '2.0.0'
+description 'Real Life Roleplay HUD + Admin/Report system'
+version '2.2.0'
 
 ui_page 'html/index.html'
 

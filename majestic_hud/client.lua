@@ -5,9 +5,6 @@ local wasInVehicle = false
 local lastPlayerUpdate = 0
 local adminLevel = 0
 local adminLoggedIn = false
-local adminMode = false
-local ticketSnapshot = {}
-local activeAdminModes = {}
 
 local weatherLabels = {
     EXTRASUNNY = 'Sonnig', CLEAR = 'Klar', NEUTRAL = 'Klar', CLOUDS = 'Bewölkt',
@@ -22,116 +19,179 @@ RegisterNetEvent('esx:setJob', function(job) playerData.job = job end)
 RegisterNetEvent('esx:setAccountMoney', function(account)
     playerData.accounts = playerData.accounts or {}
     for i, current in pairs(playerData.accounts) do
-        if current.name == account.name then playerData.accounts[i] = account; return end
+        if current.name == account.name then
+            playerData.accounts[i] = account
+            return
+        end
     end
     table.insert(playerData.accounts, account)
 end)
-RegisterNetEvent('rlrp_hud:setOnlineCount', function(count) onlineCount = math.max(0, tonumber(count) or 0) end)
+RegisterNetEvent('rlrp_hud:setOnlineCount', function(count)
+    onlineCount = math.max(0, tonumber(count) or 0)
+end)
+RegisterNetEvent('rlrp_admin:loginResult', function(ok, level)
+    adminLoggedIn = ok == true
+    adminLevel = tonumber(level) or 0
+    if adminLoggedIn then
+        SendNUIMessage({ action = 'adminAccess', loggedIn = true, level = adminLevel })
+    else
+        SendNUIMessage({ action = 'adminAccess', loggedIn = false, level = 0 })
+    end
+end)
+RegisterNetEvent('rlrp_admin:ticketCount', function(count)
+    SendNUIMessage({ action = 'ticketCount', count = tonumber(count) or 0 })
+end)
+RegisterNetEvent('rlrp_admin:ticketSnapshot', function(tickets)
+    SendNUIMessage({ action = 'ticketSnapshot', tickets = tickets or {} })
+end)
+RegisterNetEvent('rlrp_admin:ticketUpdate', function(ticket)
+    SendNUIMessage({ action = 'ticketUpdate', ticket = ticket })
+end)
+RegisterNetEvent('rlrp_admin:openAdmin', function(level)
+    adminLevel = tonumber(level) or adminLevel
+    SendNUIMessage({ action = 'openAdmin', level = adminLevel })
+end)
+RegisterNetEvent('rlrp_admin:notice', function(text)
+    TriggerEvent('chat:addMessage', { color = {255, 80, 100}, args = {'Admin', text} })
+end)
 
 local function getAccountMoney(name)
-    for _, account in pairs(playerData.accounts or {}) do if account.name == name then return account.money or 0 end end
+    for _, account in pairs(playerData.accounts or {}) do
+        if account.name == name then return account.money or 0 end
+    end
     return 0
 end
 
 local function getGameWeather()
-    local previousHash, nextHash = GetPrevWeatherTypeHashName(), GetNextWeatherTypeHashName()
+    local previousHash = GetPrevWeatherTypeHashName()
+    local nextHash = GetNextWeatherTypeHashName()
     local weatherHash = GetWeatherTypeTransition() >= 0.5 and nextHash or previousHash
     local weatherName = 'CLEAR'
-    for name in pairs(weatherLabels) do if GetHashKey(name) == weatherHash then weatherName = name; break end end
-    local hour, temp = GetClockHours(), weatherTemps[weatherName] or 22
-    if hour < 6 or hour >= 21 then temp = temp - 5 elseif hour < 9 or hour >= 17 then temp = temp - 2 end
+    for name in pairs(weatherLabels) do
+        if GetHashKey(name) == weatherHash then
+            weatherName = name
+            break
+        end
+    end
+    local hour = GetClockHours()
+    local temp = weatherTemps[weatherName] or 22
+    if hour < 6 or hour >= 21 then
+        temp = temp - 5
+    elseif hour < 9 or hour >= 17 then
+        temp = temp - 2
+    end
     return weatherLabels[weatherName] or 'Wetter', math.floor(temp + 0.5)
 end
 
 local function sendPlayerUpdate()
     local jobName, jobGrade = 'Arbeitslos', ''
-    if playerData.job then jobName = playerData.job.label or playerData.job.name or jobName; jobGrade = playerData.job.grade_label or '' end
-    local weather, temperature = getGameWeather()
-    SendNUIMessage({ action='playerUpdate', id=GetPlayerServerId(PlayerId()), online=onlineCount, job=jobName, grade=jobGrade, cash=getAccountMoney('money'), bank=getAccountMoney('bank'), weather=weather, temperature=temperature })
-end
-
-local function notify(text)
-    TriggerEvent('chat:addMessage', { color={255,80,100}, args={'Admin/Report', text} })
-end
-
-RegisterNetEvent('rlrp_admin:loginResult', function(ok, level, message)
-    adminLoggedIn, adminLevel = ok == true, tonumber(level) or 0
-    notify(message or (ok and 'Admin-Anmeldung erfolgreich.' or 'Keine Adminrechte.'))
-    SendNUIMessage({ action='adminAccess', loggedIn=adminLoggedIn, level=adminLevel })
-end)
-RegisterNetEvent('rlrp_admin:mode', function(enabled, sid, name)
-    if tonumber(sid) == GetPlayerServerId(PlayerId()) then
-        adminMode = enabled == true
-        notify(adminMode and 'Adminmodus aktiviert.' or 'Adminmodus deaktiviert.')
+    if playerData.job then
+        jobName = playerData.job.label or playerData.job.name or jobName
+        jobGrade = playerData.job.grade_label or ''
     end
-    if enabled then activeAdminModes[tonumber(sid)] = name or ('ID '..tostring(sid)) else activeAdminModes[tonumber(sid)] = nil end
-end)
-RegisterNetEvent('rlrp_admin:modeSnapshot', function(modes) activeAdminModes = modes or {} end)
-RegisterNetEvent('rlrp_admin:ticketCount', function(count)
-    SendNUIMessage({ action='ticketCount', count=tonumber(count) or 0 })
-end)
-RegisterNetEvent('rlrp_admin:ticketSnapshot', function(tickets)
-    ticketSnapshot = tickets or {}
-    SendNUIMessage({ action='ticketSnapshot', tickets=ticketSnapshot })
-end)
-RegisterNetEvent('rlrp_admin:ticketUpdate', function(ticket)
-    SendNUIMessage({ action='ticketUpdate', ticket=ticket })
-end)
-RegisterNetEvent('rlrp_admin:ticketNotice', function(text)
-    notify(text)
-end)
 
-RegisterCommand('adminlogin', function() TriggerServerEvent('rlrp_admin:login') end, false)
-RegisterCommand('admin', function() TriggerServerEvent('rlrp_admin:toggleMode') end, false)
-RegisterKeyMapping('rlrp_adminmenu', 'Admin-Menü öffnen (nach /adminlogin)', 'keyboard', 'F3')
-RegisterCommand('rlrp_adminmenu', function()
-    if not adminLoggedIn then notify('Bitte zuerst /adminlogin eingeben.'); return end
-    if adminLevel < 1 then return end
-    SetNuiFocus(true, true)
-    SendNUIMessage({ action='openAdmin', level=adminLevel })
-    TriggerServerEvent('rlrp_admin:requestTickets')
+    local weather, temperature = getGameWeather()
+    SendNUIMessage({
+        action = 'playerUpdate',
+        id = GetPlayerServerId(PlayerId()),
+        online = onlineCount,
+        job = jobName,
+        grade = jobGrade,
+        cash = getAccountMoney('money'),
+        bank = getAccountMoney('bank'),
+        weather = weather,
+        temperature = temperature
+    })
+end
+
+RegisterCommand('adminlogin', function()
+    TriggerServerEvent('rlrp_admin:login')
 end, false)
 
-RegisterNUICallback('closeAdmin', function(_, cb) SetNuiFocus(false, false); cb({ ok=true }) end)
-RegisterNUICallback('requestTickets', function(_, cb) TriggerServerEvent('rlrp_admin:requestTickets'); cb({ ok=true }) end)
-RegisterNUICallback('ticketReply', function(data, cb) TriggerServerEvent('rlrp_admin:reply', tonumber(data.ticketId), tostring(data.message or '')); cb({ ok=true }) end)
-RegisterNUICallback('ticketClose', function(data, cb) TriggerServerEvent('rlrp_admin:closeTicket', tonumber(data.ticketId)); cb({ ok=true }) end)
-RegisterNUICallback('ticketClaim', function(data, cb) TriggerServerEvent('rlrp_admin:claimTicket', tonumber(data.ticketId)); cb({ ok=true }) end)
+RegisterCommand('admin', function()
+    TriggerServerEvent('rlrp_admin:toggleMode')
+end, false)
 
-RegisterNetEvent('rlrp_admin:playerTicketMessage', function(ticketId, message, senderName)
-    notify(('Ticket #%s – %s: %s'):format(ticketId, senderName or 'Admin', message))
+RegisterCommand('giveadmin', function(src, args)
+    TriggerServerEvent('rlrp_admin:giveadmin', args[1], args[2])
+end, false)
+
+RegisterCommand('report', function(_, args)
+    TriggerServerEvent('rlrp_admin:report', table.concat(args, ' '))
+end, false)
+
+RegisterCommand('reply', function(_, args)
+    TriggerServerEvent('rlrp_admin:replyPlayer', table.concat(args, ' '))
+end, false)
+
+RegisterKeyMapping('rlrp_adminmenu', 'Admin-Menü öffnen', 'keyboard', 'F3')
+RegisterCommand('rlrp_adminmenu', function()
+    if adminLoggedIn and adminLevel >= 1 then
+        SetNuiFocus(true, true)
+        TriggerServerEvent('rlrp_admin:requestTickets')
+        SendNUIMessage({ action = 'openAdmin', level = adminLevel })
+    else
+        TriggerEvent('chat:addMessage', { color = {255,80,100}, args = {'Admin', 'Bitte zuerst /adminlogin eingeben.'} })
+    end
+end, false)
+
+RegisterNUICallback('closeAdmin', function(_, cb)
+    SetNuiFocus(false, false)
+    cb({ ok = true })
 end)
 
-local function drawText3D(x, y, z, text)
-    local onScreen, sx, sy = World3dToScreen2d(x, y, z)
-    if not onScreen then return end
-    SetTextScale(0.30, 0.30); SetTextFont(4); SetTextProportional(1); SetTextCentre(true)
-    SetTextColour(255, 35, 55, 175); SetTextOutline()
-    BeginTextCommandDisplayText('STRING'); AddTextComponentSubstringPlayerName(text); EndTextCommandDisplayText(sx, sy)
-end
+RegisterNUICallback('requestTickets', function(_, cb)
+    TriggerServerEvent('rlrp_admin:requestTickets')
+    cb({ ok = true })
+end)
+
+RegisterNUICallback('ticketReply', function(data, cb)
+    TriggerServerEvent('rlrp_admin:replyTicket', tonumber(data.ticketId), tostring(data.message or ''))
+    cb({ ok = true })
+end)
+
+RegisterNUICallback('ticketClose', function(data, cb)
+    TriggerServerEvent('rlrp_admin:closeTicket', tonumber(data.ticketId))
+    cb({ ok = true })
+end)
+
+RegisterNUICallback('ticketClaim', function(data, cb)
+    TriggerServerEvent('rlrp_admin:claimTicket', tonumber(data.ticketId))
+    cb({ ok = true })
+end)
 
 CreateThread(function()
     TriggerServerEvent('rlrp_hud:requestOnlineCount')
     while true do
-        local now, ped = GetGameTimer(), PlayerPedId()
-        if now - lastPlayerUpdate >= 1000 then sendPlayerUpdate(); lastPlayerUpdate = now end
+        local ped = PlayerPedId()
         local vehicle = GetVehiclePedIsIn(ped, false)
         local isDriver = vehicle ~= 0 and GetPedInVehicleSeat(vehicle, -1) == ped
-        if isDriver then
-            local speed, gear = GetEntitySpeed(vehicle) * 3.6, GetVehicleCurrentGear(vehicle)
-            SendNUIMessage({ action='vehicleUpdate', inVehicle=true, speed=speed, gear=gear == 0 and (speed > 1 and 'R' or 'N') or tostring(gear), fuel=GetVehicleFuelLevel(vehicle), rpm=GetVehicleCurrentRpm(vehicle) })
-            wasInVehicle = true
-        elseif wasInVehicle then SendNUIMessage({ action='vehicleUpdate', inVehicle=false }); wasInVehicle = false end
-        for sid, name in pairs(activeAdminModes) do
-            local player = GetPlayerFromServerId(tonumber(sid))
-            if player and player ~= -1 then
-                local targetPed = GetPlayerPed(player)
-                if DoesEntityExist(targetPed) then
-                    local coords = GetEntityCoords(targetPed)
-                    drawText3D(coords.x, coords.y, coords.z + 1.15, ('Administrator\n%s\nID: %s'):format(name, sid))
-                end
-            end
+        local now = GetGameTimer()
+
+        if now - lastPlayerUpdate >= 1000 then
+            sendPlayerUpdate()
+            lastPlayerUpdate = now
         end
-        Wait(isDriver and 50 or 200)
+
+        if isDriver then
+            local speed = GetEntitySpeed(vehicle) * 3.6
+            local gear = GetVehicleCurrentGear(vehicle)
+            SendNUIMessage({
+                action = 'vehicleUpdate',
+                inVehicle = true,
+                speed = speed,
+                gear = gear == 0 and (speed > 1 and 'R' or 'N') or tostring(gear),
+                fuel = GetVehicleFuelLevel(vehicle),
+                rpm = GetVehicleCurrentRpm(vehicle)
+            })
+            wasInVehicle = true
+            Wait(50)
+        else
+            if wasInVehicle then
+                SendNUIMessage({ action = 'vehicleUpdate', inVehicle = false })
+                wasInVehicle = false
+            end
+            Wait(200)
+        end
     end
 end)
