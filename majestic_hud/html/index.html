@@ -1,17 +1,154 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Real Life Roleplay</title><link rel="stylesheet" href="style.css"></head><body>
-<main id="hud">
-  <section class="server-panel"><div class="server-brand">Real L<span class="brand-i" aria-hidden="true"></span>fe Roleplay</div><div class="server-meta"><span class="online-dot"></span>Online: <strong id="online">0</strong><span class="separator">|</span><span>⌖ Deutschland</span></div><div class="server-id">ID: <strong id="player-id">0</strong><span class="separator">|</span>#<strong id="player-id-copy">0</strong></div></section>
-  <section class="bottom-left"><div class="weather"><span class="sun-icon">☀</span><span id="weather-label">Klar</span><strong id="temperature">25°</strong></div><div class="clock-row"><strong id="clock">--:--</strong><span id="date">--.--.----</span></div><div id="weekday" class="weekday">--</div><div id="job" class="job">Arbeitslos</div><div class="money-row"><span>▣</span><strong id="cash">0</strong></div><div class="money-row"><span>▤</span><strong id="bank">0</strong></div></section>
-  <section class="speedometer" id="speedometer"><div class="speed-row"><span class="gear" id="gear">N</span><span class="speed-value" id="speed">0</span></div><div class="speed-unit">KM/H</div><div class="vehicle-row">RPM <i id="rpm"></i> ⛽ <strong id="fuel">100</strong>%</div></section>
-  <aside class="report-counter" id="report-counter"><span>OFFENE REPORTS</span><strong id="report-count">0</strong></aside>
-  <aside class="ticket-feed" id="ticket-feed"><header><i></i><div><b>REPORT-ÜBERSICHT</b><small>Live · nur für Admins</small></div><strong id="feed-count">0</strong></header><div id="feed-items"><p class="feed-empty">Keine offenen Tickets</p></div></aside>
-  <div class="admin-backdrop" id="admin-backdrop"></div>
-  <section class="admin-menu" id="admin-menu"><header class="admin-header"><div><small>MAJESTIC ROLEPLAY · STAFF</small><h1>Administration</h1></div><span>ADMIN LEVEL <b id="nav-admin-level">0</b></span><button id="admin-close">×</button></header>
-    <nav class="admin-nav"><button class="nav-button active" data-tab="tickets">Offene Tickets <b id="menu-ticket-count">0</b></button><button class="nav-button" data-tab="commands">Befehle</button><button class="nav-button" data-tab="administration">Administration</button></nav>
-    <main class="admin-content"><section class="admin-tab active" id="tab-tickets"><header class="tab-heading"><div><h2>Offene Tickets <em id="heading-ticket-count">0</em></h2><p>Spielerreports und Nachrichtenverlauf</p></div><button id="refresh-tickets">Aktualisieren</button></header><div class="ticket-layout"><div class="ticket-list-wrap"><div class="list-label">EINGANG <span id="list-ticket-count">0</span></div><div class="ticket-list" id="ticket-list"></div></div><div class="ticket-detail" id="ticket-detail"><div class="empty-state"><h3>Ticket auswählen</h3><p>Der Nachrichtenverlauf erscheint hier.</p></div></div></div></section>
-      <section class="admin-tab" id="tab-commands"><h2>Befehle</h2><div class="command-list"><article>/adminlogin <small>Adminzugang aktivieren</small></article><article>/admin <small>Adminmodus · Level 2+</small></article><article>/mute ID · /unmute ID <small>Chat sperren / freigeben · Level 2+</small></article><article>/spawnwep NAME [ammo] · /spawncar MODEL [color1] [color2] <small>Level 2+</small></article><article>/setkevlar ID amount · /sethealth ID amount <small>Level 2+</small></article><article>/goto ID · /gethere ID <small>Teleport · Level 2+</small></article><article>/kick ID Grund · /ban ID Grund <small>Level 2+</small></article><article>/giveadmin ID [1-7] <small>Nur Level 7</small></article><article>/report Anliegen · /reply Nachricht <small>Spieler-Tickets</small></article></div></section>
-      <section class="admin-tab" id="tab-administration"><h2>Administration</h2><p>Reports ansehen: Level 1+. Antworten, moderieren und /admin: Level 2+. Adminrechte vergeben: Level 7.</p><div class="permission-row">Dein Admin-Level <b id="admin-level">0</b></div></section>
-    </main><footer>F3 oder ESC zum Schließen · /report Anliegen erstellt ein Ticket</footer>
-  </section>
-</main><script src="app.js"></script></body></html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real Life Roleplay</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="hud">
+    <section class="server-panel">
+      <div class="server-brand">Real L<span class="brand-i" aria-hidden="true"></span>fe Roleplay</div>
+      <div class="server-meta">
+        <span class="online-dot"></span>
+        Online: <span id="online">0</span>
+      </div>
+      <div class="server-stats">
+        <div><span>ID:</span> <strong id="player-id">0</strong></div>
+        <div><span>#</span><strong id="player-id-copy">0</strong></div>
+      </div>
+    </section>
+
+    <section class="bottom-left">
+      <div class="weather">
+        <span class="sun-icon">☀</span>
+        <span id="weather-label">Klar</span>
+        <strong id="temperature">25°</strong>
+      </div>
+
+      <div class="clock-row">
+        <strong id="clock">00:00</strong>
+        <span id="date">01.01.2026</span>
+        <span id="weekday">Montag</span>
+      </div>
+
+      <div class="player-info">
+        <div class="info-block">
+          <span>Job</span>
+          <strong id="job">Arbeitslos</strong>
+        </div>
+        <div class="info-block money-block">
+          <span>Geld</span>
+          <strong id="cash">0</strong>
+        </div>
+        <div class="info-block money-block bank-block">
+          <span>Bank</span>
+          <strong id="bank">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="speedometer" id="speedometer">
+      <div class="speed-row">
+        <span class="gear" id="gear">N</span>
+        <span class="speed-value" id="speed">0</span>
+      </div>
+      <div class="speed-unit">KM/H</div>
+      <div class="fuel-box">
+        <span class="fuel-label">TANK</span>
+        <div class="fuel-bar-wrap">
+          <div class="fuel-bar" id="fuel"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="report-counter" id="report-counter">
+      <span>OFFENE REPORTS</span>
+      <strong id="report-count">0</strong>
+    </aside>
+
+    <aside class="ticket-feed" id="ticket-feed">
+      <header>
+        <i></i>
+        <div>
+          <b>REPORT-ÜBERSICHT</b>
+          <small>Live · nur für Admins</small>
+        </div>
+        <strong id="feed-count">0</strong>
+      </header>
+      <div id="feed-items"></div>
+    </aside>
+
+    <div class="admin-backdrop" id="admin-backdrop"></div>
+
+    <section class="admin-menu" id="admin-menu">
+      <header class="admin-header">
+        <div>
+          <small>MAJESTIC ROLEPLAY • STAFF</small>
+          <h1>Administration</h1>
+        </div>
+        <span class="admin-tag">ADMIN LEVEL <b id="nav-admin-level">0</b></span>
+        <button class="admin-close" id="admin-close" aria-label="Schließen">✕</button>
+      </header>
+
+      <nav class="admin-nav">
+        <button class="nav-button active" data-tab="tickets">Offene Tickets <b id="menu-ticket-count">0</b></button>
+        <button class="nav-button" data-tab="commands">Befehle</button>
+        <button class="nav-button" data-tab="administration">Administration</button>
+      </nav>
+
+      <main class="admin-content">
+        <section class="admin-tab active" id="tab-tickets">
+          <header class="tab-heading">
+            <div>
+              <h2>Offene Tickets <em id="heading-ticket-count">0</em></h2>
+              <p>Spielerreports und Live-Status</p>
+            </div>
+          </header>
+
+          <div class="ticket-layout">
+            <div class="ticket-list" id="ticket-list"></div>
+            <div class="ticket-detail" id="ticket-detail"></div>
+          </div>
+        </section>
+
+        <section class="admin-tab" id="tab-commands">
+          <h2>Befehle</h2>
+          <div class="command-list">
+            <article><span>/adminlogin</span><small>Adminzugang aktivieren</small></article>
+            <article><span>/admin</span><small>Adminmodus ein-/ausschalten</small></article>
+            <article><span>/report [Text]</span><small>Ticket an Admins senden</small></article>
+            <article><span>/reply [Text]</span><small>Antwort auf dein eigenes Ticket</small></article>
+            <article><span>/giveadmin [ID] [Level]</span><small>Level 7 erforderlich</small></article>
+            <article><span>/mute [ID]</span><small>Chat stummschalten</small></article>
+            <article><span>/unmute [ID]</span><small>Chat wieder freigeben</small></article>
+            <article><span>/spawnwep [WEAPON] [Ammo]</span><small>Waffe geben</small></article>
+            <article><span>/spawncar [Model] [Farbe1] [Farbe2]</span><small>Fahrzeug erzeugen</small></article>
+            <article><span>/setkevlar [ID] [Wert]</span><small>Rüstung setzen</small></article>
+            <article><span>/sethealth [ID] [Wert]</span><small>Gesundheit setzen</small></article>
+            <article><span>/goto [ID]</span><small>Zu Spieler teleportieren</small></article>
+            <article><span>/gethere [ID]</span><small>Spieler zu dir holen</small></article>
+            <article><span>/kick [ID] [Grund]</span><small>Spieler kicken</small></article>
+            <article><span>/ban [ID] [Grund]</span><small>Spieler bannen</small></article>
+          </div>
+        </section>
+
+        <section class="admin-tab" id="tab-administration">
+          <h2>Administration</h2>
+          <p>Reports ansehen: Level 1+. Antworten, moderieren und /admin: Level 2+. Adminrechte vergeben: Level 7.</p>
+          <div class="admin-grid">
+            <div class="admin-box"><strong>Level 1</strong><span>Reports ansehen</span></div>
+            <div class="admin-box"><strong>Level 2</strong><span>Adminmodus + Ticketaktionen</span></div>
+            <div class="admin-box"><strong>Level 7</strong><span>Adminrechte vergeben</span></div>
+          </div>
+        </section>
+      </main>
+
+      <footer>F3 oder ESC zum Schließen • /report Anliegen erstellt ein Ticket</footer>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
