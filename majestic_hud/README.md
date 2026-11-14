@@ -1,23 +1,24 @@
-# Majestic HUD (ESX)
+# Real Life Roleplay HUD (ESX)
 
-Ein einfaches FiveM-HUD mit ESX-Spieler-ID, Job, Bargeld, Bankguthaben, Leben, Rüstung, Hunger, Durst sowie Tacho und Tankanzeige im Fahrzeug.
+Ein FiveM ESX-HUD im gewünschten Stil: „Real Life Roleplay“ mit rotem i-Punkt, echter Online-Anzahl, Benutzer-ID/Server-ID, deutschsprachigen Labels, Geld/Bank, Statusleiste und fließendem Tacho mit Tankanzeige.
 
 ## Installation
 
-1. Lade den Ordner `majestic_hud` herunter oder kopiere ihn in deinen FiveM-Serverordner unter `resources`.
-2. Stelle sicher, dass `es_extended` installiert ist. Für Hunger und Durst wird außerdem `esx_status` benötigt.
-3. Füge diese Zeilen in deine `server.cfg` ein (nach den Abhängigkeiten):
+1. Den Ordner `majestic_hud` in `resources` legen.
+2. `es_extended` installieren, für Hunger und Durst zusätzlich `esx_status`.
+3. In `server.cfg` eintragen:
 
-   ```cfg
-   ensure es_extended
-   ensure esx_status
-   ensure majestic_hud
-   ```
+```cfg
+ensure es_extended
+ensure esx_status
+ensure majestic_hud
+```
 
-4. Starte den Server neu oder führe in der Serverkonsole `ensure majestic_hud` aus.
+4. Server neu starten oder `ensure majestic_hud` ausführen.
 
 ## Hinweise
 
-- Die Anzeige verwendet das ESX-Konto `money` für Bargeld und `bank` für das Bankkonto.
-- Die Tankanzeige nutzt den nativen GTA-Füllstand. Bei einem eigenen Fuel-System kann die Abfrage in `client.lua` angepasst werden.
-- Servername, Texte und Farben lassen sich in `html/index.html` und `html/style.css` ändern.
+- Online-Anzahl wird serverseitig aus der aktuellen Spielerzahl ermittelt und aktualisiert.
+- Bargeld und Bank werden aus den ESX-Konten `money` und `bank` gelesen.
+- Fahrzeugdaten werden im NUI weich interpoliert, damit das Tacho flüssiger läuft.
+- Der Name, Text, Farben und Kartenblöcke lassen sich in `html/index.html` und `html/style.css` anpassen.
