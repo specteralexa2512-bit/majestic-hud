@@ -3,19 +3,33 @@
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; color: #fff; font-family: Arial, Helvetica, sans-serif; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
 #hud { display: none; }
 
-.server-panel { position: absolute; top: 14px; right: 24px; width: 380px; text-align: right; }
-.server-brand { white-space: nowrap; font-size: 34px; line-height: 1.1; font-weight: 900; font-style: italic; letter-spacing: -1.6px; }
-.brand-i { position: relative; display: inline-block; }
-.brand-i::after { content: ''; position: absolute; top: 2px; left: 50%; width: 5px; height: 5px; transform: translateX(-50%); border-radius: 50%; background: var(--pink); }
+/* Wordmark in the upper-right, styled like the provided reference. */
+.server-panel { position: absolute; top: 12px; right: 20px; width: min(660px, calc(100vw - 32px)); text-align: right; }
+.server-brand {
+    display: block;
+    white-space: nowrap;
+    font-family: "Arial Black", Arial, Helvetica, sans-serif;
+    font-size: clamp(36px, 3.2vw, 58px);
+    line-height: 1.02;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -2.8px;
+    color: #fff;
+    text-shadow: 0 2px 2px rgba(0,0,0,.75), 0 0 9px rgba(255,255,255,.55);
+}
+/* Draw the i directly: white stem and pink dot over it, in the word Life. */
+.brand-i { position: relative; display: inline-block; width: .205em; height: .78em; vertical-align: -.015em; }
+.brand-i::before { content: ''; position: absolute; left: 50%; bottom: .035em; width: .09em; height: .49em; transform: translateX(-50%) skew(-9deg); border-radius: .015em; background: #fff; }
+.brand-i::after { content: ''; position: absolute; top: .015em; left: 50%; width: .105em; height: .105em; transform: translateX(-50%); border-radius: 50%; background: var(--pink); box-shadow: 0 0 5px rgba(255,40,116,.45); }
 .server-meta, .server-id { color: #e3e3e6; font-size: 13px; font-weight: 600; }
-.server-meta { margin-top: 18px; }
-.server-id { margin-top: 8px; }
+.server-meta { margin-top: 12px; }
+.server-id { margin-top: 7px; }
 .server-meta strong, .server-id strong { color: #fff; }
 .separator { margin: 0 9px; color: #8d8d91; }
 .online-dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #42d77d; }
 .location { color: #e3e3e6; }
 
-/* Native GTA minimap is unchanged; this is only its adjacent information panel. */
+/* Keep the native GTA minimap; this panel only recreates its adjacent details. */
 .bottom-left { position: absolute; left: clamp(245px, 19.7vw, 360px); bottom: 32px; min-width: 250px; }
 .weather { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
 .sun-icon { color: #ffc43c; font-size: 16px; }
@@ -41,4 +55,8 @@ html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; color: #fff
 .vehicle-row strong { color: #fff; font-weight: 700; }
 .percent { margin-left: -5px; color: #aaa; }
 
-@media (max-width: 1100px) { .bottom-left { left: 225px; } .server-panel { right: 14px; } }
+@media (max-width: 1100px) {
+    .server-panel { right: 14px; }
+    .server-brand { font-size: clamp(32px, 4vw, 44px); letter-spacing: -2px; }
+    .bottom-left { left: 225px; }
+}
