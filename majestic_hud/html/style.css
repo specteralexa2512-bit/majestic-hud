@@ -1,9 +1,9 @@
 * { box-sizing: border-box; }
-:root { --pink: #ff2874; }
+:root { --pink: #ff174f; }
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; color: #fff; font-family: Arial, Helvetica, sans-serif; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
 #hud { display: none; }
 
-/* Wordmark in the upper-right, styled like the provided reference. */
+/* Large upper-right wordmark, matching the supplied Real Life Roleplay image. */
 .server-panel { position: absolute; top: 12px; right: 20px; width: min(660px, calc(100vw - 32px)); text-align: right; }
 .server-brand {
     display: block;
@@ -17,10 +17,10 @@ html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; color: #fff
     color: #fff;
     text-shadow: 0 2px 2px rgba(0,0,0,.75), 0 0 9px rgba(255,255,255,.55);
 }
-/* Draw the i directly: white stem and pink dot over it, in the word Life. */
+/* The custom i is in “Life”: white italic stem with the distinctive tilted pink block dot. */
 .brand-i { position: relative; display: inline-block; width: .205em; height: .78em; vertical-align: -.015em; }
 .brand-i::before { content: ''; position: absolute; left: 50%; bottom: .035em; width: .09em; height: .49em; transform: translateX(-50%) skew(-9deg); border-radius: .015em; background: #fff; }
-.brand-i::after { content: ''; position: absolute; top: .015em; left: 50%; width: .105em; height: .105em; transform: translateX(-50%); border-radius: 50%; background: var(--pink); box-shadow: 0 0 5px rgba(255,40,116,.45); }
+.brand-i::after { content: ''; position: absolute; top: -.005em; left: 50%; width: .22em; height: .125em; transform: translateX(-50%) rotate(-12deg) skew(-7deg); border-radius: .025em; background: var(--pink); box-shadow: 0 0 5px rgba(255,23,79,.45); }
 .server-meta, .server-id { color: #e3e3e6; font-size: 13px; font-weight: 600; }
 .server-meta { margin-top: 12px; }
 .server-id { margin-top: 7px; }
